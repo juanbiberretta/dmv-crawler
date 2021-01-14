@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import fetch from 'node-fetch';
 
 import { sendSms } from './sms';
@@ -81,18 +80,39 @@ const crawler = async () => {
         const dates = await fetch(url);
         const json: readonly { readonly date: string }[] = await dates.json();
         if (json && json.length > 0) {
-          console.log('Got dates for ', location.name, json);
-          await sendSms(
-            `Juanbi, found available dates at: ${
-              location.name
-            }. Dates: ${json.map((d) => d.date).join(' - ')}`
-          );
+          return {
+            location: location.name,
+            data: json,
+          };
         }
+        return {
+          location: location.name,
+          data: undefined,
+        };
       } catch (e) {
         console.error('There was a problem fetching: ', url, e);
+        return {
+          location: location.name,
+          data: undefined,
+        };
       }
     })
   );
+
+  const dateResults = dates.filter((d) => Boolean(d.data));
+  if (dateResults.length === 0) return;
+
+  const smsString = 'Juanbi found some dates: \n'.concat(
+    dateResults
+      .map(
+        (d) =>
+          `Location: ${d.location}\n Dates: \n ${d.data
+            .map((date) => date.date)
+            .join(' \n ')}`
+      )
+      .join('\n')
+  );
+  sendSms(smsString);
 };
 
 crawler();
