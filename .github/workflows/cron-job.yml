@@ -2,7 +2,7 @@
 name: DMV Crawler
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/15 * * * *'
 
 jobs:
   check-dmv-website:
