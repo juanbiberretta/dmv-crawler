@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fetch from 'node-fetch';
 
+import { sendSms } from './sms';
+
 const getDatesUrl = (branchNameId: string) => {
   const permitServiceId =
     '10226f4de0f460aa67bb735db97f9eb434b8ac2a144e40a20ff1e1848ffbeae7';
@@ -80,6 +82,11 @@ const crawler = async () => {
         const json: readonly { readonly date: string }[] = await dates.json();
         if (json && json.length > 0) {
           console.log('Got dates for ', location.name, json);
+          await sendSms(
+            `Juanbi, found available dates at: ${
+              location.name
+            }. Dates: ${json.map((d) => d.date).join(' - ')}`
+          );
         }
       } catch (e) {
         console.error('There was a problem fetching: ', url, e);
