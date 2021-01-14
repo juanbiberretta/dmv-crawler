@@ -4,12 +4,12 @@ import fetch from 'node-fetch';
 import { sendSms } from './sms';
 
 const getDatesUrl = (branchNameId: string) => {
-  // const permitServiceId =
-  //   '10226f4de0f460aa67bb735db97f9eb434b8ac2a144e40a20ff1e1848ffbeae7';
-  const availableServiceIdForTest =
-    '4ec745aaba5800ddb8fea03c823118afe3a65f4635f12e8ec69b9df5d10a0eec';
+  const permitServiceId =
+    '10226f4de0f460aa67bb735db97f9eb434b8ac2a144e40a20ff1e1848ffbeae7';
+  // const availableServiceIdForTest =
+  //   '4ec745aaba5800ddb8fea03c823118afe3a65f4635f12e8ec69b9df5d10a0eec';
   const nowDate = Date.now();
-  return `https://nysdmvqw.us.qmatic.cloud/qwebbook/rest/schedule/branches/${branchNameId}/services/${availableServiceIdForTest}/dates?_=${nowDate}`;
+  return `https://nysdmvqw.us.qmatic.cloud/qwebbook/rest/schedule/branches/${branchNameId}/services/${permitServiceId}/dates?_=${nowDate}`;
 };
 
 const serviceLocations = [

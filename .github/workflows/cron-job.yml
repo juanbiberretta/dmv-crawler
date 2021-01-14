@@ -1,5 +1,9 @@
-name: learn-github-actions
-on: [push]
+# Runs every hour
+name: DMV Crawler
+on:
+  schedule:
+    - cron: '0 * * * *'
+
 jobs:
   check-dmv-website:
     runs-on: ubuntu-latest
